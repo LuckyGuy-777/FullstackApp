@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./security/AuthContext";
 // 아이디, 패스워드 컴포넌트를 제어 컴포넌트로 만듦
 // 리액트 스테이트 양식에 변화발생 -> 동시에 양식 요소도 변화
 function LoginComponent() {
@@ -8,11 +9,12 @@ function LoginComponent() {
   const [password, setPassword] = useState("");
 
   // 로그인 성공/실패시 상태값
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   // 페이지 반환위해서, useNavigate 훅을 사용
   const navigate = useNavigate();
+
+  const authContext = useAuth();
 
   // 아이디 입력값을, 상태값으로 변경하는 함수
   function handleUsernameChange(event) {
@@ -25,14 +27,9 @@ function LoginComponent() {
 
   // 사용자 인증 로직
   function handleSubmit() {
-    if (username === "in28minutes" && password === "dummy") {
-      console.log("Authenticated Successfully");
-      setShowSuccessMessage(true);
-      setShowErrorMessage(false);
+    if (authContext.login(username, password)) {
       navigate(`/welcome/${username}`); // 로그인 성공시 /welcome 페이지로 이동. 여기서 변수쓰려면 `(틱) 사용
     } else {
-      console.log("Authentication Failed. Please check your credentials.");
-      setShowSuccessMessage(false);
       setShowErrorMessage(true);
     }
   }
@@ -42,9 +39,6 @@ function LoginComponent() {
   return (
     <div className="Login">
       <h1>Time to Login</h1>
-      {showSuccessMessage && (
-        <div className="successMessage">Authenticated Successfully</div>
-      )}
       {showErrorMessage && (
         <div className="errorMessage">
           Authentication Failed. Please check your credentials.
