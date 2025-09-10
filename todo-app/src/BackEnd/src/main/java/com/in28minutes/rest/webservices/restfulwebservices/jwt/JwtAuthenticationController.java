@@ -1,0 +1,44 @@
+package com.in28minutes.rest.webservices.restfulwebservices.jwt;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+// 여기있는 jwt코드가 컴포넌트 스캔에 의해 스캐닝되는 패키지
+// 안에 있어야함.
+
+@RestController
+public class JwtAuthenticationController {
+    
+    private final JwtTokenService tokenService;
+    
+    private final AuthenticationManager authenticationManager;
+
+    public JwtAuthenticationController(JwtTokenService tokenService, 
+            AuthenticationManager authenticationManager) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<JwtTokenResponse> generateToken(
+            @RequestBody JwtTokenRequest jwtTokenRequest) {
+        
+        var authenticationToken = 
+                new UsernamePasswordAuthenticationToken(
+                        jwtTokenRequest.username(), 
+                        jwtTokenRequest.password());
+        
+        var authentication = 
+                authenticationManager.authenticate(authenticationToken);
+        
+        var token = tokenService.generateToken(authentication);
+        
+        return ResponseEntity.ok(new JwtTokenResponse(token));
+    }
+}
+
+

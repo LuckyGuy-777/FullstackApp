@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
+// 이 파일의 영향을 받지 않기위해서, 아래 어노테이션 주석처리
+//@RestController
 public class TodoResource {
 	
 	private TodoService todoService;

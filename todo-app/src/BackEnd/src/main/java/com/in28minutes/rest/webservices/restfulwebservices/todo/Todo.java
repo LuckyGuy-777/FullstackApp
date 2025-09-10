@@ -2,13 +2,21 @@ package com.in28minutes.rest.webservices.restfulwebservices.todo;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+// 엔터티가 되도록 관리. 해당 클래스를 엔터티라고 선언함.
+@Entity
 public class Todo {
 
 	public Todo() {
 		
 	}
 	
-	public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
+	// id값이 null이라면 todo를 삽입. id가 값을 가지면, 기존에있는 todo를 업데이트. todo가 integer을 사용하도록 변경하자
+	// int타입인 요소들을 모두 Integer으로 변경
+	public Todo(Integer id, String username, String description, LocalDate targetDate, boolean done) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -16,20 +24,25 @@ public class Todo {
 		this.targetDate = targetDate;
 		this.done = done;
 	}
-
-	private int id;
-
+	// h2-console은, 인메모리데이터베이스이기에, 스프링부트의 자동설정이,
+	// 자동으로 테이블을 생성해준다.
+	@Id
+	@GeneratedValue
+	private Integer id;
+	private String description;
+	private boolean done;
+	private LocalDate targetDate;
 	private String username;
 	
-	private String description;
-	private LocalDate targetDate;
-	private boolean done;
+	
+	
+	
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

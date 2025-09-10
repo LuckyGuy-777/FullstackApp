@@ -18,6 +18,8 @@ public class RestfulWebServicesApplication {
 	// 3000번 만 허용하게끔 하자
 	// addMapping은 특정한 패턴에대해, 크로스 오리진 리퀘스트처리를
 	// 가능하게 해줌
+	// Jwt패키지가, com.in28minutes.rest.webservices.restfulwebservices;
+	// 패키지의 서브패키지 이여야 함. -> @스프링부트어플리케이션 이 있는 클래스의 패키지의 서브패키지에 존재해야함
 	
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

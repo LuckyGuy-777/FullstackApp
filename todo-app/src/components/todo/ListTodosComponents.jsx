@@ -72,7 +72,7 @@ function ListTodosComponent() {
    function addNewTodo(){
     navigate(`/todo/-1`)
   }
-
+// 테이블 양식 설정
   return (
     <div className="container">
       <h1>Things You Want To Do!</h1>
@@ -93,7 +93,6 @@ function ListTodosComponent() {
           <tbody>
             {todos.map((todo) => (
               <tr key={todo.id}>
-                <td>{todo.id}</td>
                 <td>{todo.description}</td>
                 <td>{todo.done.toString()}</td>
                 {/* <td>{todo.targetDate.toDateString()}</td> */}

@@ -1,22 +1,18 @@
-import axios from 'axios'
+import { apiClient } from './ApiClient'
 
 // export function retrieveHelloWorldBean(){
 //     return axios.get('http://localhost:8080/hello-world-bean')
 // }
 
-// localhost:8080 대신..
-// create는 소괄호
-// 아래 구문으로 백엔드 기본주소를 받아옴
-const apiClient = axios.create(
-    {
-        baseURL: 'http://localhost:8080'
-    }
-)
+
 
 
 // // 함수선언 대신, 화살표함수로 대체 
 // export const retrieveHelloWorldBean 
 //     = () => apiClient.get('/hello-world-bean')
+
+// API호출을 할때마다 인증을 위해서 토큰을 전송하려고함
+// 어떻게 하면 그걸 일반화 시킬까? 토큰을 공통적으로 적용시키는 방법은?
 
 export const retrieveAllTodosForUsernameApi
     = (username) => apiClient.get(`/users/${username}/todos`)

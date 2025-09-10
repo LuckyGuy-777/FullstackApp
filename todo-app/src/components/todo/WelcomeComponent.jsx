@@ -1,9 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { retrieveHelloWorldPathVariable } from "./api/HelloWorldApiService";
+import { useAuth } from "./security/AuthContext";
 
 function WelcomeComponent() {
-  const { username } = useParams();
+  const { username } = useParams()
+
+  const authContext = useAuth()
 
   const [message,setMessage] = useState(null)
 
@@ -13,7 +16,7 @@ function WelcomeComponent() {
     // axios를 사용해서, Rest api 호출
     // 호출 성공시, 200응답과, .then 발생.
     // 실패시 .catch와 error. 성공과 무관하게 finally
-        retrieveHelloWorldPathVariable('choi')
+        retrieveHelloWorldPathVariable('choi', authContext.token)
           .then((response) => successfulResponse(response))
           .catch( (error) => errorResponse(error))
           .finally( () => console.log('cleanup') )

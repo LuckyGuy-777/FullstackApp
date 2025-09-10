@@ -1,8 +1,6 @@
 package com.in28minutes.rest.webservices.restfulwebservices.basic;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -10,7 +8,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 // 스프링시큐리티 설정파일
-@Configuration
+// 기본 보안인증이 안잡히기 위해서 어노테이션 비활성
+//@Configuration
 public class BasicAuthenticationSecurityConfiguration {
 
 	// #요약.
@@ -45,7 +44,7 @@ public class BasicAuthenticationSecurityConfiguration {
 						// HttpMethod를 넣으려면, new AntPathRequestMatcher를 쓰라함
 						auth ->
 							auth
-							.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()// 1번 구현
+							.requestMatchers(new AntPathRequestMatcher("/**", "OPTIONS")).permitAll()// 1번 구현
 							.anyRequest().authenticated()
 						)
 					// HTTP 기본인증 설정
@@ -58,7 +57,7 @@ public class BasicAuthenticationSecurityConfiguration {
 							session -> session.sessionCreationPolicy
 							(SessionCreationPolicy.STATELESS))
 					// CSRF 비활성.
-					.csrf().disable()
+					.csrf(csrf -> csrf.disable())
 				
 					// http.build()에 오류가 나는 이유는, 예외를 내기 때문임
 					// 마지막으로 http.build()를 리턴

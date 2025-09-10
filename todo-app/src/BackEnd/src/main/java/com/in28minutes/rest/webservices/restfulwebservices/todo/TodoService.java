@@ -41,7 +41,7 @@ public class TodoService {
 
 	public Todo findById(int id) {
 		Predicate<? super Todo> predicate = todo -> todo.getId() == id;
-		Todo todo = todos.stream().filter(predicate).findFirst().get();
+		Todo todo = todos.stream().filter(predicate).findFirst().orElse(null);
 		return todo;
 	}
 

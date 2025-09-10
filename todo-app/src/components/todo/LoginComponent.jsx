@@ -26,8 +26,10 @@ function LoginComponent() {
   }
 
   // 사용자 인증 로직
-  function handleSubmit() {
-    if (authContext.login(username, password)) {
+  // authContext를 참조하므로, async와 await을 추가함
+  // 올바른 값을 받을때까지 기다리고, 웰컴페이지로. 그렇지않다면, 오류메세지
+  async function handleSubmit() {
+    if (await authContext.login(username, password)) {
       navigate(`/welcome/${username}`); // 로그인 성공시 /welcome 페이지로 이동. 여기서 변수쓰려면 `(틱) 사용
     } else {
       setShowErrorMessage(true);
